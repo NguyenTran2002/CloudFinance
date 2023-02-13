@@ -1,6 +1,9 @@
 # universal import
 from universal_imports import *
 
+# import features
+import helper
+
 #------------------------------
 
 def sum_category(in_df, category, start_time = '1900-01-01', end_time = '2200-12-31'):
@@ -78,3 +81,51 @@ def sum_ALL_categories(in_df, start_time = '1900-01-01', end_time = '2200-12-31'
     sum_categories_df = sum_categories_df.sort_values(by = 'Amount', ascending = False)
 
     return sum_categories, sum_categories_df
+
+#------------------------------
+
+def graph_sum_categories(in_df, start_time = '1900-01-01', end_time = '2200-12-31'):
+    """
+    DESCRIPTION:
+        Graph the total amount spent in each category over the time period
+        Export the graph in Flask/static/images
+    """
+
+    #------------------------------
+    # tally the necessary data
+    categories_df = sum_ALL_categories(in_df, start_time, end_time)[1]
+
+    #------------------------------
+    # creating the figure
+
+    # create the bar chart
+    plt.figure(figsize=(25, 10)) # size
+    plt.xticks(rotation=45)
+    ax = sns.barplot(x = 'Category', y = 'Amount', data = categories_df)
+    ax.set_xlabel("Category",fontsize=20)
+    ax.set_ylabel("Expenses",fontsize=20)
+
+    # shows value on top of each bar
+    for i in ax.containers:
+        ax.bar_label(i,)
+
+    #------------------------------
+    # exporting the figure
+
+    # get a unique id
+    id = str(helper.get_unique_id())
+
+    # generate a name
+    name = 'sum_categories_' + id + '_' + start_time + '_' + end_time + '.png'
+
+    # generate the path
+    path = 'Flask/static/images/' + name
+
+    ax.figure.savefig(path)
+
+    # delete all redundant figures
+    helper.clean_up_all_but(\
+        folder = "Flask/static/images", \
+        starts_with = 'sum_categories_', \
+        not_delete_id = id, \
+        ends_with = ".png")

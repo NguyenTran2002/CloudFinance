@@ -42,6 +42,28 @@ def get_unique_id():
 
 #------------------------------
 
+def reformat_main_df(df):
+    """
+    DESCRIPTION:
+        Reformat the main dataframe to be more readable
+
+    INPUT SIGNATURE:
+        1. df (pandas dataframe): the main dataframe
+
+    OUTPUT SIGNATURE:
+        1. df (pandas dataframe): the reformatted main dataframe
+    """
+
+    # convert the date column to datetime
+    df['Date'] = pd.to_datetime(df['Date'])
+
+    # convert the amount column to float
+    df['Amount'] = df['Amount'].astype(float)
+
+    return df
+
+#------------------------------
+
 def random_from_percentage(chance):
     """
     DESCRIPTION:
@@ -62,6 +84,8 @@ def random_from_percentage(chance):
         return True
     else:
         return False
+
+#------------------------------
 
 def clean_up_all_but (folder, starts_with, not_delete_id, ends_with = ".png"):
     """
