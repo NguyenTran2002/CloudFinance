@@ -36,7 +36,7 @@ class test_get_unique_id(unittest.TestCase):
                 test_result = False
                 break;
 
-        self.assertEqual(expected, test_result)
+        self.assertEqual(test_result, expected)
 
 #------------------------------
 
