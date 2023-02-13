@@ -83,6 +83,9 @@ class test_sum_ALL_categories(unittest.TestCase):
         # get the sum
         category_sum_dict = category_module.sum_ALL_categories(self.sample_df)[0]
 
+        # sort the dictionary in descending order
+        
+
         self.assertEqual(category_sum_dict, self.expected_dict)
 
 #------------------------------

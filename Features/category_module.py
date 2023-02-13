@@ -74,4 +74,7 @@ def sum_ALL_categories(in_df, start_time = '1900-01-01', end_time = '2200-12-31'
     # convert the dictionary to a dataframe
     sum_categories_df = pd.DataFrame(sum_categories.items(), columns = ['Category', 'Amount'])
 
+    # sort the dictionary in descending order
+    sum_categories_df = sum_categories_df.sort_values(by = 'Amount', ascending = False)
+
     return sum_categories, sum_categories_df
