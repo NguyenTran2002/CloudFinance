@@ -7,8 +7,6 @@ from universal_imports import *
 
 #------------------------------
 
-#------------------------------
-
 # FLASK APP
 
 app = flask.Flask(__name__, template_folder = 'Flask/templates', static_folder = 'Flask/static')
@@ -22,4 +20,4 @@ def index():
 #------------------------------
 if __name__ == '__main__':
 
-    app.run(port = 8000)
+    app.run()
