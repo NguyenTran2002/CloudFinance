@@ -27,29 +27,30 @@ def get_cumulative_expenses_by_day_in_a_month(in_df, year, month):
     cumulative_expenses = []
 
     #------------------------------
-    # Get the start and end date of the month
-
-    # get the start date of the month
-    start_date = datetime.datetime(year = year, month = month, day = 1)
+    # Calculate the cumulative expenses as of each day
 
     # days in month dictionary
     days_in_month_dict = {1: 31, 2: 28, 3: 31, 4: 30, 5: 31, 6: 30, 7: 31, 8: 31, 9: 30, 10: 31, 11: 30, 12: 31}
 
     for d in range(1, days_in_month_dict[month] + 1):
 
-        dates.append(d)
-
         # format this day
         this_day = datetime.datetime(year = year, month = month, day = d)
 
+        # if in the future, transactions' details also include time (hour, minute, second),
+        # then we will need to find previous_day and next_day and fitler the transactions BETWEEN
+        # previous_day and next_day
+
+        # filter all the transactions in the day
+        day_df = in_df [ (in_df['Date'] == this_day) ]
+
         # check if this day exist in the main dataframe
-        if this_day not in in_df['Date'].unique():
+        if len(day_df) == 0:
             continue
 
         else:
 
-            # filter all the transactions in the day
-            day_df = in_df [ (in_df['Date'] == this_day) ]
+            dates.append(d)
 
             # sum total expense of the day
             day_total = day_df['Amount'].sum()
