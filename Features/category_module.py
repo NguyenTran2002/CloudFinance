@@ -33,7 +33,7 @@ def sum_category(in_df, category, start_time = '1900-01-01', end_time = '2200-12
 
 #------------------------------
 
-def sum_ALL_category(in_df, start_time = '1900-01-01', end_time = '2200-12-31'):
+def sum_ALL_categories(in_df, start_time = '1900-01-01', end_time = '2200-12-31'):
 
     """
     DESCRIPTION:
@@ -48,6 +48,10 @@ def sum_ALL_category(in_df, start_time = '1900-01-01', end_time = '2200-12-31'):
         1. sum_categories (dict): a dictionary of the total amount spent in each category
     """
 
+    # convert start_time and end_time to datetime
+    start_time = pd.to_datetime(start_time)
+    end_time = pd.to_datetime(end_time)
+
     # filter the dataframe
     filtered_df = in_df[(in_df["Date"] >= start_time) & (in_df["Date"] <= end_time)]
 
@@ -61,7 +65,7 @@ def sum_ALL_category(in_df, start_time = '1900-01-01', end_time = '2200-12-31'):
     for category in categories:
 
         # sum the category
-        category_sum = sum_category(filtered_df, category, start_time, end_time) # datetime conversion happens in here
+        category_sum = sum_category(filtered_df, category, start_time, end_time)
 
         # add the category and sum to the dictionary
         sum_categories[category] = category_sum

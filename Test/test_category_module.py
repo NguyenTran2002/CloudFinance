@@ -54,7 +54,7 @@ class test_sum_category(unittest.TestCase):
 
 #------------------------------
 
-class test_sum_ALL_category(unittest.TestCase):
+class test_sum_ALL_categories(unittest.TestCase):
       
     def setUp(self):
         
@@ -78,10 +78,10 @@ class test_sum_ALL_category(unittest.TestCase):
             'Uncategorized':714\
         }
 
-    def test_sum_ALL_category(self):
+    def test_sum_ALL_categories(self):
 
         # get the sum
-        category_sum_dict = category_module.sum_ALL_category(self.sample_df)
+        category_sum_dict = category_module.sum_ALL_categories(self.sample_df)
 
         self.assertEqual(category_sum_dict, self.expected_dict)
 
