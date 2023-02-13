@@ -54,5 +54,38 @@ class test_sum_category(unittest.TestCase):
 
 #------------------------------
 
+class test_sum_ALL_category(unittest.TestCase):
+      
+    def setUp(self):
+        
+        # read in the sample data
+        self.sample_df = pd.read_csv('Data/Test Data/Samples.csv')
+
+        # convert column "Date" to datetime
+        self.sample_df['Date'] = pd.to_datetime(self.sample_df['Date'])
+
+        # expected results
+        self.expected_dict = {
+            'Business Services':621,\
+            'Clothing':951,\
+            'Education':288,\
+            'Food and Dining':1440,\
+            'Health and Fitness':427,\
+            'Home':710,\
+            'Pet':519,\
+            'Shopping':897,\
+            'Transportation':856,\
+            'Uncategorized':714\
+        }
+
+    def test_sum_ALL_category(self):
+
+        # get the sum
+        category_sum_dict = category_module.sum_ALL_category(self.sample_df)
+
+        self.assertEqual(category_sum_dict, self.expected_dict)
+
+#------------------------------
+
 if __name__ == '__main__':
     unittest.main()
