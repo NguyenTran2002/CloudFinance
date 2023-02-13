@@ -13,7 +13,7 @@ def datetime_convert(target_string):
 
 #------------------------------
 
-def unique_id_generator():
+def get_unique_id():
     """
     DESCRIPTION:
         Generate a unique ID (for each transaction)
@@ -22,6 +22,9 @@ def unique_id_generator():
     OUTPUT SIGNATURE:
         1. unique_id (str): the unique ID
     """
+
+    # built in delay to ensure the time is different
+    time.sleep(0.000001)
     
     # get current time
     now = datetime.datetime.now()

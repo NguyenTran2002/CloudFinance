@@ -5,6 +5,7 @@ import flask
 import pandas as pd
 import datetime
 import random
+import time
 
 #------------------------------
 # DATABASE IMPORT
