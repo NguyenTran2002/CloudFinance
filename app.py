@@ -24,12 +24,20 @@ def index():
     main_df = pd.read_csv('Data/Expenses.csv')
 
     # reformat the main dataframe
-    main_df = helper.reformat_df(main_df)
+    main_df = helper.reformat_main_df(main_df)
 
-    # get the total expenses in each category
-    category_sum_df = category_module.sum_ALL_categories(main_df)[1]
+    # graph the total expenses for each category
+    graph_sum_ALL_category_name = category_module.graph_sum_categories( \
+        in_df = main_df, \
+        start_time = '2023-01-01', \
+        end_time = '2023-01-31')
 
-    return flask.render_template('index.html')
+    # generate URL for the graph from file name
+    graph_sum_ALL_category_URL = flask.url_for('static',\
+        filename =  graph_sum_ALL_category_name)
+
+    return flask.render_template('index.html', \
+        sum_ALL_categories_plot = graph_sum_ALL_category_URL)
 
 
 #------------------------------

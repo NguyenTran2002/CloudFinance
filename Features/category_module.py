@@ -89,6 +89,14 @@ def graph_sum_categories(in_df, start_time = '1900-01-01', end_time = '2200-12-3
     DESCRIPTION:
         Graph the total amount spent in each category over the time period
         Export the graph in Flask/static/images
+
+    INPUT SIGNATURE:
+        1. in_df (pd.DataFrame): the input dataframe
+        2. start_time (string): YYYY-MM-DD format
+        3. end_time (string): YYYY-MM-DD format
+
+    OUTPUT SIGNATURE:
+        1. name (str): the filename of the exported graph
     """
 
     #------------------------------
@@ -99,11 +107,10 @@ def graph_sum_categories(in_df, start_time = '1900-01-01', end_time = '2200-12-3
     # creating the figure
 
     # create the bar chart
-    plt.figure(figsize=(25, 10)) # size
     plt.xticks(rotation=45)
     ax = sns.barplot(x = 'Category', y = 'Amount', data = categories_df)
-    ax.set_xlabel("Category",fontsize=20)
-    ax.set_ylabel("Expenses",fontsize=20)
+    ax.set_xlabel("Category",fontsize = 20)
+    ax.set_ylabel("Expenses",fontsize = 20)
 
     # shows value on top of each bar
     for i in ax.containers:
@@ -119,13 +126,15 @@ def graph_sum_categories(in_df, start_time = '1900-01-01', end_time = '2200-12-3
     name = 'sum_categories_' + id + '_' + start_time + '_' + end_time + '.png'
 
     # generate the path
-    path = 'Flask/static/images/' + name
+    path = 'Flask/static/' + name
 
-    ax.figure.savefig(path)
+    ax.figure.savefig(path, dpi = 150, bbox_inches = 'tight')
 
     # delete all redundant figures
     helper.clean_up_all_but(\
-        folder = "Flask/static/images", \
+        folder = "Flask/static/", \
         starts_with = 'sum_categories_', \
         not_delete_id = id, \
         ends_with = ".png")
+
+    return name

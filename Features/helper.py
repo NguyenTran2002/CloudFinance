@@ -92,6 +92,12 @@ def clean_up_all_but (folder, starts_with, not_delete_id, ends_with = ".png"):
     DESCRIPTION:
         look into a folder, delete all files that starts with a certain name that does not have the "not-delete id"
 
+    INPUT SIGNATURE:
+        1. folder (str): the folder to look into (include the '/' at the end)
+        2. starts_with (str): the start of the file name
+        3. not_delete_id (str): the unique id of a file that should not be deleted
+        4. ends_with (str): the end of the file name
+
     EXAMPLE:
         for the not-delete-file: "overall_graph_146143154145.png"
         starts_with is: "overall_graph_"
@@ -101,7 +107,7 @@ def clean_up_all_but (folder, starts_with, not_delete_id, ends_with = ".png"):
 
     # not_delete_file = folder + starts_with + not_delete_id + ends_with
 
-    all_files_name = os.listdir(folder)
+    all_files_name = os.listdir(folder) # add the last / when using this function
 
     all_files_path = [] 
     for file_name in all_files_name:
