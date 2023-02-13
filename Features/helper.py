@@ -62,3 +62,31 @@ def random_from_percentage(chance):
         return True
     else:
         return False
+
+def clean_up_all_but (folder, starts_with, not_delete_id, ends_with = ".png"):
+    """
+    DESCRIPTION:
+        look into a folder, delete all files that starts with a certain name that does not have the "not-delete id"
+
+    EXAMPLE:
+        for the not-delete-file: "overall_graph_146143154145.png"
+        starts_with is: "overall_graph_"
+        not_delete_id is: "146143154145"
+        ends_with is: ".png"
+    """
+
+    # not_delete_file = folder + starts_with + not_delete_id + ends_with
+
+    all_files_name = os.listdir(folder)
+
+    all_files_path = [] 
+    for file_name in all_files_name:
+        file_path = folder + file_name
+        all_files_path.append(file_path)
+
+    for file in all_files_path:
+
+        if starts_with in file:
+
+            if not_delete_id not in file:
+                os.remove(file)

@@ -46,6 +46,7 @@ def sum_ALL_categories(in_df, start_time = '1900-01-01', end_time = '2200-12-31'
 
     OUTPUT SIGNATURE:
         1. sum_categories (dict): a dictionary of the total amount spent in each category
+        2. sum_categories_df (pd.DataFrame): a dataframe of the total amount spent in each category
     """
 
     # convert start_time and end_time to datetime
@@ -70,4 +71,7 @@ def sum_ALL_categories(in_df, start_time = '1900-01-01', end_time = '2200-12-31'
         # add the category and sum to the dictionary
         sum_categories[category] = category_sum
 
-    return sum_categories
+    # convert the dictionary to a dataframe
+    sum_categories_df = pd.DataFrame(sum_categories.items(), columns = ['Category', 'Amount'])
+
+    return sum_categories, sum_categories_df

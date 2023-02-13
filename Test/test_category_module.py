@@ -81,7 +81,7 @@ class test_sum_ALL_categories(unittest.TestCase):
     def test_sum_ALL_categories(self):
 
         # get the sum
-        category_sum_dict = category_module.sum_ALL_categories(self.sample_df)
+        category_sum_dict = category_module.sum_ALL_categories(self.sample_df)[0]
 
         self.assertEqual(category_sum_dict, self.expected_dict)
 
