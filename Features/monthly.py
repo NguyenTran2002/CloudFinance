@@ -44,9 +44,19 @@ def get_cumulative_expenses_by_day_in_a_month(in_df, year, month):
         # filter all the transactions in the day
         day_df = in_df [ (in_df['Date'] == this_day) ]
 
-        # check if this day exist in the main dataframe
+        # if this day doesn't exist in the main dataframe
         if len(day_df) == 0:
-            continue
+            
+            dates.append(d)
+
+            # add the total expense of the day to the total_so_far list
+            if (len(cumulative_expenses) == 0):
+                cumulative_expenses.append(0)
+            else:
+                print("Cumulative List: ",cumulative_expenses)
+                cumulative_expenses.append(cumulative_expenses[-1])
+
+
 
         else:
 
@@ -56,9 +66,10 @@ def get_cumulative_expenses_by_day_in_a_month(in_df, year, month):
             day_total = day_df['Amount'].sum()
 
             # add the total expense of the day to the total_so_far list
-            if d == 1:
+            if (len(cumulative_expenses) == 0):
                 cumulative_expenses.append(day_total)
             else:
+                print("Cumulative List: ",cumulative_expenses)
                 cumulative_expenses.append(day_total + cumulative_expenses[-1])
 
     #------------------------------
