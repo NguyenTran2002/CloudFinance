@@ -106,11 +106,14 @@ def graph_sum_categories(in_df, start_time = '1900-01-01', end_time = '2200-12-3
     #------------------------------
     # creating the figure
 
+    # clear figure
+    plt.clf()
+
     # create the bar chart
     plt.xticks(rotation=45)
     ax = sns.barplot(x = 'Category', y = 'Amount', data = categories_df)
-    ax.set_xlabel("Category",fontsize = 20)
-    ax.set_ylabel("Expenses",fontsize = 20)
+    ax.set_xlabel("Category",fontsize = 15)
+    ax.set_ylabel("Expenses",fontsize = 15)
 
     # shows value on top of each bar
     for i in ax.containers:

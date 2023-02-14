@@ -68,3 +68,81 @@ def get_cumulative_expenses_by_day_in_a_month(in_df, year, month):
     month_trend_df = pd.DataFrame({'Day': dates, 'Cumulative Expenses': cumulative_expenses})
 
     return month_trend_df
+
+#------------------------------
+
+def graph_months_trend(in_df, year, month):
+    """
+    DESCRIPTION:
+        - Graph the cumulative expenses of the month as of each day
+        - Graph both this month and last month on the same plot
+
+    INPUT SIGNATURE:
+        1. in_df (pandas dataframe): the main dataframe
+        2. year (int): the year
+        3. month (int): the month
+
+    OUTPUT SIGNATURE:
+        1. graph_name (str): the name of the graph
+    """
+
+    #------------------------------
+    # Get the cumulative expenses of this month and last month
+
+    # get this month cumulative expenses
+    this_month_trend_df = get_cumulative_expenses_by_day_in_a_month (
+        in_df = in_df, \
+        year = year, \
+        month = month)
+
+    # get last month cumulative expenses
+
+    # if this month is January, then last month is December of the previous year
+    if month == 1:
+        last_month_trend_df = get_cumulative_expenses_by_day_in_a_month (
+            in_df = in_df, \
+            year = year - 1, \
+            month = 12)
+
+    else:
+        last_month_trend_df = get_cumulative_expenses_by_day_in_a_month (
+            in_df = in_df, \
+            year = year, \
+            month = month - 1)
+
+    #------------------------------
+    # Graph the cumulative expenses of the month
+
+    # clear figure
+    plt.clf()
+
+    months_plot = sns.lineplot(data = this_month_trend_df, x = 'Day', y = 'Cumulative Expenses')
+    months_plot = sns.lineplot(data = last_month_trend_df, x = 'Day', y = 'Cumulative Expenses')
+    months_plot.set_xlabel("Day",fontsize = 15)
+    months_plot.set_ylabel("Cumulative Expenses",fontsize = 15)
+    plt.legend(labels=["This Month Trend","Last Month Trend"])
+
+    #------------------------------
+    # exporting the figure
+
+    # get a unique id
+    id = str(helper.get_unique_id())
+
+    # generate a name
+    name = 'months_trend_' + id + '.png'
+
+    # generate the path
+    path = 'Flask/static/' + name
+
+    plt.savefig(path, dpi = 150, bbox_inches = 'tight')
+
+    # delete all redundant figures
+    helper.clean_up_all_but(\
+        folder = "Flask/static/", \
+        starts_with = 'months_trend_', \
+        not_delete_id = id, \
+        ends_with = ".png")
+
+    return name
+
+#------------------------------

@@ -10,7 +10,7 @@ import os
 
 # fix MacOS compatibility issue
 import matplotlib.pyplot as plt
-# plt.switch_backend('Agg')
+plt.switch_backend('Agg')
 
 import seaborn as sns
 # set desired graph size and font

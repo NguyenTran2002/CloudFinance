@@ -50,24 +50,20 @@ def index():
     #------------------------------
     # Comparing This Month Trend to Last Month Trend
 
-    # get this month cumulative expenses
-    this_month_trend_df = monthly.get_cumulative_expenses_by_day_in_a_month (
+    graph_months_trend_name = monthly.graph_months_trend( \
         in_df = main_df, \
         year = current_year, \
         month = current_month)
 
-    # get last month cumulative expenses
-    last_month_trend_df = monthly.get_cumulative_expenses_by_day_in_a_month (
-        in_df = main_df, \
-        year = current_year, \
-        month = current_month - 1)
-
-    
+    # generate URL for the graph from file name
+    graph_months_trend_URL = flask.url_for('static',\
+        filename =  graph_months_trend_name)
 
 
     return flask.render_template('index.html', \
         today = current_date_str, \
-        sum_ALL_categories_plot = graph_sum_ALL_category_URL)
+        sum_ALL_categories_plot = graph_sum_ALL_category_URL, \
+        months_trend_plot = graph_months_trend_URL)
 
 
 #------------------------------
