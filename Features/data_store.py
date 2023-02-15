@@ -17,3 +17,5 @@ class data_store (object):
         self.current_year = None
         self.current_month = None
         self.current_day = None
+        self.current_date_str = None
+        self.start_of_the_month_str = None

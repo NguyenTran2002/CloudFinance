@@ -48,7 +48,7 @@ class test_sum_category(unittest.TestCase):
         for category in unique_categories:
 
             # get the sum of the category
-            category_sum_dict[category] = category_module.sum_category(self.sample_df, category)
+            category_sum_dict[category] = category_module.sum_category(self.sample_df, category)[0]
 
         self.assertEqual(category_sum_dict, self.expected_dict)
 

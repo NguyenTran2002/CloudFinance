@@ -19,6 +19,7 @@ def sum_category(in_df, category, start_time = '1900-01-01', end_time = '2200-12
 
     OUTPUT SIGNATURE:
         1. category_sum (float): the sum of the category over the time period
+        2. filtered_df (pd.DataFrame): the filtered dataframe
     """
 
     # convert start_time and end_time to datetime
@@ -32,7 +33,7 @@ def sum_category(in_df, category, start_time = '1900-01-01', end_time = '2200-12
     # sum the category
     category_sum = filtered_df["Amount"].sum()
 
-    return category_sum
+    return category_sum, filtered_df
 
 #------------------------------
 
@@ -69,7 +70,7 @@ def sum_ALL_categories(in_df, start_time = '1900-01-01', end_time = '2200-12-31'
     for category in categories:
 
         # sum the category
-        category_sum = sum_category(filtered_df, category, start_time, end_time)
+        category_sum = sum_category(filtered_df, category, start_time, end_time)[0]
 
         # add the category and sum to the dictionary
         sum_categories[category] = category_sum
@@ -141,3 +142,4 @@ def graph_sum_categories(in_df, start_time = '1900-01-01', end_time = '2200-12-3
         ends_with = ".png")
 
     return name
+

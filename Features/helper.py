@@ -60,6 +60,9 @@ def reformat_main_df(df):
     # convert the amount column to float
     df['Amount'] = df['Amount'].astype(float)
 
+    # round all the amounts to 2 decimal places
+    df['Amount'] = df['Amount'].round(2)
+
     return df
 
 #------------------------------

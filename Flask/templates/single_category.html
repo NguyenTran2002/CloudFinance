@@ -41,23 +41,29 @@
         <br>
 
         <h1>
-          Welcome Back, {{username}}!
+          Showing data for {{category}} from {{start_date}} to {{end_date}}
         </h1>
 
+        <br>
+
         <h3>
-          Ready to get your personal finances in order?
+          Total Expenses: ${{total_expenses}}
         </h3>
 
         <br>
 
+        <h3>
+          All transactions in this category
+        </h3>
+
+        {% for row in category_df_html %}
+            {{ row|safe }}
+        {% endfor %}
+
         <br>
 
-        <h2>
-          Break-down of This Month Expenses (as of {{today}})
-        </h2>
-
         <div class = "category-dropdown">
-          <button class = "dropbtn">Want A Closer Look?</button>
+          <button class = "dropbtn">Checkout A Different Category?</button>
           <div class = "dropdown-content">
             <a href = "/single_category?category=Book">Book</a>
             <a href = "/single_category?category=Business+Services">Business Services</a>
@@ -82,13 +88,6 @@
             <a href = "/single_category?category=Utilities">Utilities</a>
           </div>
         </div>
-
-        <br>
-
-        <br>
-
-        <img src = "{{sum_ALL_categories_plot}}"
-          alt = "Bar Chart Totaling Expenses of Each Category">
 
         <br>
 

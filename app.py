@@ -51,17 +51,17 @@ def index():
     global_data.current_year = datetime.datetime.now().year
     global_data.current_month = datetime.datetime.now().month
     global_data.current_day = datetime.datetime.now().day
-    current_date_str = str(global_data.current_year) + \
+    global_data.current_date_str = str(global_data.current_year) + \
         '-' + str(global_data.current_month) + \
         '-' + str(global_data.current_day)
-    start_of_the_month_str = str(global_data.current_year) + \
+    global_data.start_of_the_month_str = str(global_data.current_year) + \
         '-' + str(global_data.current_month) + '-01'
 
     # graph the total expenses for each category
     graph_sum_ALL_category_name = category_module.graph_sum_categories( \
         in_df = global_data.main_df, \
-        start_time = start_of_the_month_str, \
-        end_time = current_date_str)
+        start_time = global_data.start_of_the_month_str, \
+        end_time = global_data.current_date_str)
 
     # generate URL for the graph from file name
     graph_sum_ALL_category_URL = flask.url_for('static',\
@@ -71,7 +71,7 @@ def index():
 
     return flask.render_template('index.html', \
         username = global_data.username, \
-        today = current_date_str, \
+        today = global_data.current_date_str, \
         sum_ALL_categories_plot = graph_sum_ALL_category_URL)
 
 #------------------------------
@@ -97,6 +97,35 @@ def trend():
 
     return flask.render_template('trend.html', \
         months_trend_plot = graph_months_trend_URL)
+
+#------------------------------
+
+@app.route("/single_category", methods=['GET', 'POST'])
+def single_category():
+
+    # global variables in use
+    global global_data
+
+    #------------------------------
+    # request the category name from URL
+    category = flask.request.args.get('category')
+
+    #------------------------------
+    # get the total spent of the category and the filtered dataframe
+    category_total, category_df = category_module.sum_category(\
+        in_df = global_data.main_df, \
+        category = category, \
+        start_time = global_data.start_of_the_month_str, \
+        end_time = global_data.current_date_str)
+
+    #------------------------------
+
+    return flask.render_template('single_category.html', \
+        category = category, \
+        start_date = global_data.start_of_the_month_str, \
+        end_date = global_data.current_date_str, \
+        total_expenses = category_total, \
+        category_df_html = [category_df.to_html(classes = 'category_df', header = "true")])
 
 #------------------------------
 
