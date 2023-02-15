@@ -110,6 +110,9 @@ def single_category():
     # request the category name from URL
     category = flask.request.args.get('category')
 
+    # store the category globally
+    global_data.category = category
+
     #------------------------------
     # get the total spent of the category and the filtered dataframe
     category_total, category_df = category_module.sum_category(\
@@ -128,6 +131,35 @@ def single_category():
         category_df_html = [category_df.to_html(classes = 'category_df', header = "true")])
 
 #------------------------------
+
+@app.route("/single_category_alt_date", methods=['GET', 'POST'])
+def single_category_alt_date():
+
+    # global variables in use
+    global global_data
+
+    #------------------------------
+    # request the category name, start date, and end date from URL
+    category = global_data.category
+    start_date = flask.request.args.get('start_date')
+    end_date = flask.request.args.get('end_date')
+
+    #------------------------------
+    # get the total spent of the category and the filtered dataframe
+    category_total, category_df = category_module.sum_category(\
+        in_df = global_data.main_df, \
+        category = category, \
+        start_time = start_date, \
+        end_time = end_date)
+
+    #------------------------------
+
+    return flask.render_template('single_category.html', \
+        category = category, \
+        start_date = start_date, \
+        end_date = end_date, \
+        total_expenses = category_total, \
+        category_df_html = [category_df.to_html(classes = 'category_df', header = "true")])
 
 #------------------------------
 if __name__ == '__main__':

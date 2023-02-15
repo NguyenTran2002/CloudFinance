@@ -40,28 +40,6 @@
 
         <br>
 
-        <h1>
-          Showing data for {{category}} from {{start_date}} to {{end_date}}
-        </h1>
-
-        <br>
-
-        <h3>
-          Total Expenses: ${{total_expenses}}
-        </h3>
-
-        <br>
-
-        <h3>
-          All transactions in this category
-        </h3>
-
-        {% for row in category_df_html %}
-            {{ row|safe }}
-        {% endfor %}
-
-        <br>
-
         <div class = "category-dropdown">
           <button class = "dropbtn">Checkout A Different Category?</button>
           <div class = "dropdown-content">
@@ -88,6 +66,39 @@
             <a href = "/single_category?category=Utilities">Utilities</a>
           </div>
         </div>
+
+        <br>
+
+        <h1>
+          Showing data for {{category}} from {{start_date}} to {{end_date}}
+        </h1>
+
+        <h3>
+          Total Expenses: ${{total_expenses}}
+        </h3>
+
+        <p>Adjust Date Range</p>
+
+        <form action="/single_category_alt_date">
+
+          <label for = "start_date">Start Date:</label>
+          <input type = "date" id = "start_date" name = "start_date">
+
+          <label for = "end_date">End Date:</label>
+          <input type = "date" id = "end_date" name = "end_date">
+
+          <input type = "submit" value = "Adjust">
+        </form>
+
+        <h3>
+          All transactions in this category
+        </h3>
+
+        {% for row in category_df_html %}
+            {{ row|safe }}
+        {% endfor %}
+
+        <br>
 
         <br>
 

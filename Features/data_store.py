@@ -19,3 +19,8 @@ class data_store (object):
         self.current_day = None
         self.current_date_str = None
         self.start_of_the_month_str = None
+
+        #------------------------------
+        # categorical variable
+
+        self.category = None
