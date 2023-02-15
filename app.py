@@ -8,9 +8,15 @@ from universal_imports import *
 #------------------------------
 
 # import features
-import helper
 import category_module
+import data_store
+import helper
 import monthly
+
+#------------------------------
+
+# initialize the data_store object
+global_data = data_store.data_store()
 
 #------------------------------
 
@@ -21,11 +27,20 @@ app = flask.Flask(__name__, template_folder = 'Flask/templates', static_folder =
 @app.route("/", methods=['GET', 'POST'])
 def index():
 
+    # global variables in use
+    global global_data
+
+    #------------------------------
+    # User and data
+
+    # hardcode the username
+    global_data.username = 'Nguyen'
+
     # read in the main dataframe
-    main_df = pd.read_csv('Data/Expenses.csv')
+    global_data.main_df = pd.read_csv('Data/Expenses.csv')
 
     # reformat the main dataframe
-    main_df = helper.reformat_main_df(main_df)
+    global_data.main_df = helper.reformat_main_df(global_data.main_df)
 
     #------------------------------
     # Break-down of This Month Expenses
@@ -39,7 +54,7 @@ def index():
 
     # graph the total expenses for each category
     graph_sum_ALL_category_name = category_module.graph_sum_categories( \
-        in_df = main_df, \
+        in_df = global_data.main_df, \
         start_time = start_of_the_month_str, \
         end_time = current_date_str)
 
@@ -51,7 +66,7 @@ def index():
     # Comparing This Month Trend to Last Month Trend
 
     graph_months_trend_name = monthly.graph_months_trend( \
-        in_df = main_df, \
+        in_df = global_data.main_df, \
         year = current_year, \
         month = current_month)
 
@@ -61,6 +76,7 @@ def index():
 
 
     return flask.render_template('index.html', \
+        username = global_data.username, \
         today = current_date_str, \
         sum_ALL_categories_plot = graph_sum_ALL_category_URL, \
         months_trend_plot = graph_months_trend_URL)
