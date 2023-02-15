@@ -103,6 +103,12 @@ def clean_up_all_but (folder, starts_with, not_delete_id, ends_with = ".png"):
         starts_with is: "overall_graph_"
         not_delete_id is: "146143154145"
         ends_with is: ".png"
+
+    REASON:
+        Why use this method of generating files with unique names and delete old ones instead
+        of simply overwriting the old ones?
+        This is because a cache handling error in the browser, sometimes, the new image will not be
+        loaded if the name is the same, even if the file is overwritten. This is a workaround.
     """
 
     # not_delete_file = folder + starts_with + not_delete_id + ends_with

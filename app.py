@@ -24,6 +24,8 @@ global_data = data_store.data_store()
 
 app = flask.Flask(__name__, template_folder = 'Flask/templates', static_folder = 'Flask/static')
 
+#------------------------------
+
 @app.route("/", methods=['GET', 'POST'])
 def index():
 
@@ -46,11 +48,14 @@ def index():
     # Break-down of This Month Expenses
 
     # get the current year, month, day
-    current_year = datetime.datetime.now().year
-    current_month = datetime.datetime.now().month
-    current_day = datetime.datetime.now().day
-    current_date_str = str(current_year) + '-' + str(current_month) + '-' + str(current_day)
-    start_of_the_month_str = str(current_year) + '-' + str(current_month) + '-01'
+    global_data.current_year = datetime.datetime.now().year
+    global_data.current_month = datetime.datetime.now().month
+    global_data.current_day = datetime.datetime.now().day
+    current_date_str = str(global_data.current_year) + \
+        '-' + str(global_data.current_month) + \
+        '-' + str(global_data.current_day)
+    start_of_the_month_str = str(global_data.current_year) + \
+        '-' + str(global_data.current_month) + '-01'
 
     # graph the total expenses for each category
     graph_sum_ALL_category_name = category_module.graph_sum_categories( \
@@ -63,24 +68,37 @@ def index():
         filename =  graph_sum_ALL_category_name)
 
     #------------------------------
+
+    return flask.render_template('index.html', \
+        username = global_data.username, \
+        today = current_date_str, \
+        sum_ALL_categories_plot = graph_sum_ALL_category_URL)
+
+#------------------------------
+
+@app.route("/trend", methods=['GET', 'POST'])
+def trend():
+
+    # global variables in use
+    global global_data
+
+    #------------------------------
     # Comparing This Month Trend to Last Month Trend
 
     graph_months_trend_name = monthly.graph_months_trend( \
         in_df = global_data.main_df, \
-        year = current_year, \
-        month = current_month)
+        year = global_data.current_year, \
+        month = global_data.current_month)
 
     # generate URL for the graph from file name
     graph_months_trend_URL = flask.url_for('static',\
         filename =  graph_months_trend_name)
 
 
-    return flask.render_template('index.html', \
-        username = global_data.username, \
-        today = current_date_str, \
-        sum_ALL_categories_plot = graph_sum_ALL_category_URL, \
+    return flask.render_template('trend.html', \
         months_trend_plot = graph_months_trend_URL)
 
+#------------------------------
 
 #------------------------------
 if __name__ == '__main__':

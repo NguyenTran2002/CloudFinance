@@ -5,6 +5,15 @@ class data_store (object):
     """
     def __init__(self):
 
-        self.username = None
+        #------------------------------
+        # user-dependent variables
 
+        self.username = None
         self.main_df = None
+
+        #------------------------------
+        # time variables
+
+        self.current_year = None
+        self.current_month = None
+        self.current_day = None
