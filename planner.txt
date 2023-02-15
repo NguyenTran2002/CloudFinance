@@ -1,0 +1,5 @@
+NEXT TO IMPLEMENT:
+
+    1. Add a Look Up Category Input Field in Home
+    2. In /trend, add option to choose between monthly trend and yearly trend
+    3. Add /detailed route that shows all transactions given a time frame
