@@ -54,6 +54,9 @@ def reformat_main_df(df):
         1. df (pandas dataframe): the reformatted main dataframe
     """
 
+    # convert "Unique ID" to string to avoid scientific notation display
+    df['Unique ID'] = df['Unique ID'].astype(str)
+
     # convert the date column to datetime
     df['Date'] = pd.to_datetime(df['Date'])
 
