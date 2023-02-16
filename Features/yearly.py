@@ -7,7 +7,7 @@ import monthly
 
 #------------------------------
 
-def get_cumulative_expenses_by_day_in_a_year(in_df, year, last_month = -1, last_day = -1):
+def get_cumulative_expenses_by_month_in_a_year(in_df, year, last_month = -1, last_day = -1):
     """
     DESCRIPTION:
         - Tally the expense of the month cumulatively as of each day till the input last month and last day
@@ -20,7 +20,8 @@ def get_cumulative_expenses_by_day_in_a_year(in_df, year, last_month = -1, last_
         4. last_day (int): the day
 
     OUTPUT SIGNATURE:
-        1. month_trend_df (pandas dataframe): a dataframe with 2 columns: Date, Cumulative Expenses
+        1. year_trend_df (pandas dataframe): a dataframe with 2 columns: Date, Cumulative Expenses
+        2. year_total (float): the total expenses for the year
     """
 
     #------------------------------
@@ -93,7 +94,7 @@ def graph_years_trend(in_df, year, last_month = -1, last_day = -1):
     # Get the cumulative expenses of this month and last month
 
     # get this month cumulative expenses
-    this_year_trend_df = get_cumulative_expenses_by_day_in_a_year (
+    this_year_trend_df = get_cumulative_expenses_by_month_in_a_year (
         in_df = in_df, \
         year = year, \
         last_month = last_month, \
@@ -101,7 +102,7 @@ def graph_years_trend(in_df, year, last_month = -1, last_day = -1):
 
     # get last month cumulative expenses
 
-    previous_year_trend_df = get_cumulative_expenses_by_day_in_a_year (
+    previous_year_trend_df = get_cumulative_expenses_by_month_in_a_year (
         in_df = in_df, \
         year = year - 1)[0]
 
