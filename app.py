@@ -88,7 +88,8 @@ def trend():
     graph_months_trend_name = monthly.graph_months_trend( \
         in_df = global_data.main_df, \
         year = global_data.current_year, \
-        month = global_data.current_month)
+        month = global_data.current_month, \
+        last_day = global_data.current_day)
 
     # generate URL for the graph from file name
     graph_months_trend_URL = flask.url_for('static',\

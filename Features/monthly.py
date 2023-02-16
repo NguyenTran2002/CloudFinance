@@ -6,16 +6,17 @@ import helper
 
 #------------------------------
 
-def get_cumulative_expenses_by_day_in_a_month(in_df, year, month):
+def get_cumulative_expenses_by_day_in_a_month(in_df, year, month, last_day = -1):
     """
     DESCRIPTION:
-        - Tally the expense of the month cumulatively as of each day
+        - Tally the expense of the month cumulatively as of each day till the input day
         - E. g. spent this much as of day 1, as of day 2, as of day 3, etc.
 
     INPUT SIGNATURE:
         1. in_df (pandas dataframe): the main dataframe
         2. year (int): the year
         3. month (int): the month
+        4. last_day (int): the day
 
     OUTPUT SIGNATURE:
         1. month_trend_df (pandas dataframe): a dataframe with 2 columns: Date, Cumulative Expenses
@@ -32,7 +33,17 @@ def get_cumulative_expenses_by_day_in_a_month(in_df, year, month):
     # days in month dictionary
     days_in_month_dict = {1: 31, 2: 28, 3: 31, 4: 30, 5: 31, 6: 30, 7: 31, 8: 31, 9: 30, 10: 31, 11: 30, 12: 31}
 
-    for d in range(1, days_in_month_dict[month] + 1):
+    # if day is not defined by the user, then set it to the last day of the month
+    if last_day == -1:
+        last_day = days_in_month_dict[month]
+
+    # if the day is larger than the last day of the month, then set it to the last day of the month
+    if last_day > days_in_month_dict[month]:
+        last_day = days_in_month_dict[month]
+
+    # loop through each day in the month until the stop date
+    d = 1
+    while d <= last_day:
 
         # format this day
         this_day = datetime.datetime(year = year, month = month, day = d)
@@ -56,8 +67,6 @@ def get_cumulative_expenses_by_day_in_a_month(in_df, year, month):
                 print("Cumulative List: ",cumulative_expenses)
                 cumulative_expenses.append(cumulative_expenses[-1])
 
-
-
         else:
 
             dates.append(d)
@@ -72,6 +81,9 @@ def get_cumulative_expenses_by_day_in_a_month(in_df, year, month):
                 print("Cumulative List: ",cumulative_expenses)
                 cumulative_expenses.append(day_total + cumulative_expenses[-1])
 
+        # increment the day
+        d += 1
+
     #------------------------------
     # Create the dataframe
 
@@ -82,7 +94,7 @@ def get_cumulative_expenses_by_day_in_a_month(in_df, year, month):
 
 #------------------------------
 
-def graph_months_trend(in_df, year, month):
+def graph_months_trend(in_df, year, month, last_day = -1):
     """
     DESCRIPTION:
         - Graph the cumulative expenses of the month as of each day
@@ -104,7 +116,8 @@ def graph_months_trend(in_df, year, month):
     this_month_trend_df = get_cumulative_expenses_by_day_in_a_month (
         in_df = in_df, \
         year = year, \
-        month = month)
+        month = month, \
+        last_day = last_day)
 
     # get last month cumulative expenses
 
