@@ -9,7 +9,7 @@ import helper
 def get_cumulative_expenses_by_day_in_a_month(in_df, year, month, last_day = -1):
     """
     DESCRIPTION:
-        - Tally the expense of the month cumulatively as of each day till the input day
+        - Tally the expense of the month cumulatively as of each day till the input last day
         - E. g. spent this much as of day 1, as of day 2, as of day 3, etc.
 
     INPUT SIGNATURE:
@@ -20,6 +20,7 @@ def get_cumulative_expenses_by_day_in_a_month(in_df, year, month, last_day = -1)
 
     OUTPUT SIGNATURE:
         1. month_trend_df (pandas dataframe): a dataframe with 2 columns: Date, Cumulative Expenses
+        2. month_total (float): the total expense of the month
     """
 
     #------------------------------
@@ -64,7 +65,6 @@ def get_cumulative_expenses_by_day_in_a_month(in_df, year, month, last_day = -1)
             if (len(cumulative_expenses) == 0):
                 cumulative_expenses.append(0)
             else:
-                print("Cumulative List: ",cumulative_expenses)
                 cumulative_expenses.append(cumulative_expenses[-1])
 
         else:
@@ -78,7 +78,6 @@ def get_cumulative_expenses_by_day_in_a_month(in_df, year, month, last_day = -1)
             if (len(cumulative_expenses) == 0):
                 cumulative_expenses.append(day_total)
             else:
-                print("Cumulative List: ",cumulative_expenses)
                 cumulative_expenses.append(day_total + cumulative_expenses[-1])
 
         # increment the day
@@ -90,20 +89,25 @@ def get_cumulative_expenses_by_day_in_a_month(in_df, year, month, last_day = -1)
     # create the dataframe
     month_trend_df = pd.DataFrame({'Day': dates, 'Cumulative Expenses': cumulative_expenses})
 
-    return month_trend_df
+    #------------------------------
+    # total expense of the month
+    month_total = cumulative_expenses[-1]
+
+    return month_trend_df, month_total
 
 #------------------------------
 
 def graph_months_trend(in_df, year, month, last_day = -1):
     """
     DESCRIPTION:
-        - Graph the cumulative expenses of the month as of each day
+        - Graph the cumulative expenses of the month as of each day till the input of last day
         - Graph both this month and last month on the same plot
 
     INPUT SIGNATURE:
         1. in_df (pandas dataframe): the main dataframe
         2. year (int): the year
         3. month (int): the month
+        4. last_day (int): the end day
 
     OUTPUT SIGNATURE:
         1. graph_name (str): the name of the graph
@@ -117,22 +121,22 @@ def graph_months_trend(in_df, year, month, last_day = -1):
         in_df = in_df, \
         year = year, \
         month = month, \
-        last_day = last_day)
+        last_day = last_day)[0]
 
     # get last month cumulative expenses
 
-    # if this month is January, then last month is December of the previous year
+    # if this month is January, then previous month is December of the previous year
     if month == 1:
-        last_month_trend_df = get_cumulative_expenses_by_day_in_a_month (
+        previous_month_trend_df = get_cumulative_expenses_by_day_in_a_month (
             in_df = in_df, \
             year = year - 1, \
-            month = 12)
+            month = 12)[0]
 
     else:
-        last_month_trend_df = get_cumulative_expenses_by_day_in_a_month (
+        previous_month_trend_df = get_cumulative_expenses_by_day_in_a_month (
             in_df = in_df, \
             year = year, \
-            month = month - 1)
+            month = month - 1)[0]
 
     #------------------------------
     # Graph the cumulative expenses of the month
@@ -141,7 +145,7 @@ def graph_months_trend(in_df, year, month, last_day = -1):
     plt.clf()
 
     months_plot = sns.lineplot(data = this_month_trend_df, x = 'Day', y = 'Cumulative Expenses')
-    months_plot = sns.lineplot(data = last_month_trend_df, x = 'Day', y = 'Cumulative Expenses')
+    months_plot = sns.lineplot(data = previous_month_trend_df, x = 'Day', y = 'Cumulative Expenses')
     months_plot.set_xlabel("Day",fontsize = 15)
     months_plot.set_ylabel("Cumulative Expenses",fontsize = 15)
     plt.legend(labels=["This Month Trend","Last Month Trend"])

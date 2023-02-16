@@ -12,6 +12,7 @@ import category_module
 import data_store
 import helper
 import monthly
+import yearly
 
 #------------------------------
 
@@ -76,8 +77,8 @@ def index():
 
 #------------------------------
 
-@app.route("/trend", methods=['GET', 'POST'])
-def trend():
+@app.route("/months_trend", methods=['GET', 'POST'])
+def months_trend():
 
     # global variables in use
     global global_data
@@ -96,8 +97,33 @@ def trend():
         filename =  graph_months_trend_name)
 
 
-    return flask.render_template('trend.html', \
+    return flask.render_template('months_trend.html', \
         months_trend_plot = graph_months_trend_URL)
+
+#------------------------------
+
+@app.route("/years_trend", methods=['GET', 'POST'])
+def years_trend():
+
+    # global variables in use
+    global global_data
+
+    #------------------------------
+    # Comparing This Year Trend to Last Year Trend
+
+    graph_years_trend_name = yearly.graph_years_trend( \
+        in_df = global_data.main_df, \
+        year = global_data.current_year, \
+        last_month = global_data.current_month, \
+        last_day = global_data.current_day)
+
+    # generate URL for the graph from file name
+    graph_years_trend_URL = flask.url_for('static',\
+        filename = graph_years_trend_name)
+
+
+    return flask.render_template('years_trend.html', \
+        years_trend_plot = graph_years_trend_URL)
 
 #------------------------------
 

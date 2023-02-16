@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+<html lang = "en">
+
+    <head>
+
+        <title>CloudFinance Home</title>
+        <link rel="stylesheet" href = "static/home.css">
+
+    </head>
+
+    <style>
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      
+      th, td {
+        text-align: left;
+        padding: 8px;
+      }
+      
+      tr:nth-child(even) {background-color: #d6e7ea;}
+
+    </style>
+
+    <body>
+
+        <div class = "header">
+          <h1>CloudFinance</h1>
+          <p>Digitalize Your Bookkeeping Habit</p>
+        </div>
+
+        <div class="topnav">
+          <a "active" href = "/">Home</a>
+          <a href = "/">Categorical Break-down</a>
+          <a href = "/months_trend">Month Trend</a>
+          <a href = "/years_trend">Year Trend</a>
+        </div>
+
+        <br>
+
+        <h1>
+          This Month Trend Comparing to Last Month
+        </h1>
+
+        <img src = "{{months_trend_plot}}"
+          alt = "Line Chart Comparing the Cumulative Expenses of This Month and Previous Month">
+
+    </body>
+
+</html>
