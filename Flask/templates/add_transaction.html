@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+
+<html lang = "en">
+
+    <head>
+
+        <title>CloudFinance Home</title>
+        <link rel="stylesheet" href = "static/home.css">
+
+    </head>
+
+    <style>
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      
+      th, td {
+        text-align: left;
+        padding: 8px;
+      }
+      
+      tr:nth-child(even) {background-color: #d6e7ea;}
+
+    </style>
+
+    <body>
+
+        <div class = "header">
+          <h1>CloudFinance</h1>
+          <p>Digitalize Your Bookkeeping Habit</p>
+        </div>
+
+        <div class="topnav">
+          <a "active" href = "/">Home & Categorical Break-down</a>
+          <a href = "/months_trend">Month Trend</a>
+          <a href = "/years_trend">Year Trend</a>
+          <a href = "/add_transaction">Add A Transation</a>
+        </div>
+
+        <br>
+
+        <h2>Add A Transaction</h2>
+
+        <h4>Provide all of the following details to properly add a transaction to your data.</h4>
+
+        <form action = "/transaction_added" method = "GET">
+
+          <label for = "description">Description:</label><br>
+          <input type= "text" name = "description" id = "description"><br>
+
+          <br>
+
+          <label for = "category">Category:</label><br>
+          <select name = "category" id = "category">
+            {% for category in categories %}
+              <option value = "{{category}}" SELECTED>{{category}}</option>"
+            {% endfor %}
+          </select><br>
+
+          <br>
+
+          <label for = "amount">Amount:</label><br>
+          <input type = "text" name = "amount" id = "amount"><br>
+
+          <br>
+
+          <label for = "date">Date:</label><br>
+          <input type = "date" name = "date" id = "date"><br>
+
+          <br>
+
+          <label for = "account">Account:</label><br>
+          <select name = "account" id = "account">
+            {% for account in accounts %}
+              <option value = "{{account}}" SELECTED>{{account}}</option>"
+            {% endfor %}
+          </select><br>
+
+          <br>
+
+          <label for = "third_party">Third Party:</label><br>
+          <input type = "text" name = "third_party" id = "third_party"><br>
+
+          <p>Third Party field is optional. It refers to a person relevant to the transaction.
+            For example, you paid for Jeff's dinner the other day, and he will pay you back in the future.</p>
+
+          <br>
+
+          <input type = "submit" value = "Record">
+
+        </form>
+
+        <br>
+
+    </body>
+
+</html>

@@ -41,12 +41,17 @@
 
         <br>
 
-        <h1>
-          This Year Trend Comparing to Year Month
-        </h1>
+        <h2>Transaction Added Successfully!</h2>
 
-        <img src = "{{years_trend_plot}}"
-          alt = "Line Chart Comparing the Cumulative Expenses of This Year and Previous Year">
+        <h4>Here is what you added</h4>
+
+        {% for row in new_transaction_df_html %}
+            {{ row|safe }}
+        {% endfor %}
+
+        <br>
+
+        <a href = "/add_transaction">Add Another Transaction</a>
 
     </body>
 

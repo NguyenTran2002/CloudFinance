@@ -50,7 +50,7 @@ class test_add_transaction(unittest.TestCase):
             category = "Food and Dining", \
             amount = 100, \
             date = "2018-04-28", \
-            account = "Chase Freedom Flex")
+            account = "Chase Freedom Flex")[0]
 
         # add the second transaction
         produced_df = data_manipulation.add_transaction(\
@@ -60,7 +60,7 @@ class test_add_transaction(unittest.TestCase):
             amount = 127, \
             date = "2030-04-11", \
             account = "Capital One Savor", \
-            third_party = "Christopher")
+            third_party = "Christopher")[0]
 
         # drop column unique ID
         produced_df = produced_df.drop(columns = ['Unique ID'])

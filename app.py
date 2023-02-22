@@ -13,6 +13,7 @@ import data_store
 import helper
 import monthly
 import yearly
+import data_manipulation
 
 #------------------------------
 
@@ -74,6 +75,80 @@ def index():
         username = global_data.username, \
         today = global_data.current_date_str, \
         sum_ALL_categories_plot = graph_sum_ALL_category_URL)
+
+#------------------------------
+
+@app.route("/add_transaction", methods=['GET', 'POST'])
+def add_transaction():
+    """
+    DESCRIPTION:
+        Provide the user with a form interface to add a new transaction
+        The transaction will be added when the submit button is clicked,
+            which redirect the user to the route /transaction_added
+    """
+
+    # global variables in use
+    global global_data
+
+    # get the list of categories
+    categories = global_data.main_df['Category'].unique().tolist()
+
+    # get the list of all accounts
+    accounts = global_data.main_df['Account'].unique().tolist()
+
+    # sort both lists from A to Z
+    categories.sort()
+    accounts.sort()
+
+    return flask.render_template('add_transaction.html',
+        categories = categories,
+        accounts = accounts)
+
+#------------------------------
+
+@app.route("/transaction_added", methods=['GET', 'POST'])
+def transaction_added():
+    """
+    DESCRIPTION:
+        Add a new transaction with the user inputted data
+    """
+
+    # global variables in use
+    global global_data
+
+    # # request the user inputted data
+    # description = flask.request.form.get('description')
+    # category = flask.request.form.get('category')
+    # amount = flask.request.form.get('amount')
+    # date = flask.request.form.get('date')
+    # account = flask.request.form.get('account')
+    # third_party = flask.request.form.get('third_party')
+
+
+    description = flask.request.args.get('description')
+    category = flask.request.args.get('category')
+    amount = flask.request.args.get('amount')
+    date = flask.request.args.get('date')
+    account = flask.request.args.get('account')
+    third_party = flask.request.args.get('third_party')
+
+    # add the new transaction to the main dataframe
+    global_data.main_df, new_transaction_df = data_manipulation.add_transaction(
+        in_df = global_data.main_df,
+        description = description,
+        category = category,
+        amount = amount,
+        date = date,
+        account = account,
+        third_party = third_party)
+
+    # save the main dataframe to the csv file
+    global_data.main_df.to_csv('Data/Expenses.csv', index = False)
+
+    #------------------------------
+
+    return flask.render_template('transaction_added.html',
+        new_transaction_df_html = [new_transaction_df.to_html(classes = 'new_transaction_df', header = "true")])
 
 #------------------------------
 
@@ -191,4 +266,4 @@ def single_category_alt_date():
 #------------------------------
 if __name__ == '__main__':
 
-    app.run()
+    app.run(debug = False, port = 2700)

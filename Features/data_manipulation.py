@@ -23,6 +23,7 @@ def add_transaction(in_df, description, category, amount, date, account, third_p
 
     OUTPUT SIGNATURE:
         1. updated_df (pd.DataFrame): return the main dataframe with the new transaction added
+        2. new_transaction_df (pd.DataFrame): return the new transaction as a dataframe
     """
 
     # convert date to datetime object
@@ -50,4 +51,4 @@ def add_transaction(in_df, description, category, amount, date, account, third_p
     # reset the index
     updated_df = updated_df.reset_index(drop = True)
 
-    return updated_df
+    return updated_df, new_transaction_df
